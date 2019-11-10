@@ -1,4 +1,5 @@
 package com.test.base;
+import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -8,6 +9,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.apache.log4j.Logger;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Properties;
 
@@ -28,40 +31,21 @@ public class TestBase {
     public static Properties config = null ;
     public static Properties OR = null ;
     public static FileInputStream fis = null ;
-   // public static Logger log =  Logger.getLogger(TestBase.class.getName());
+    public static Logger log ;
+    public static Date d = new Date();
 
 
     @BeforeSuite
     public void setUp() {
         //executes before every suite and test cases
-       if (driver == null) {   //when driver is null first load property file
-            config = new Properties();
-            OR = new Properties();
+            intiateLogger();
+            intiatePropertyfiles();
 
-            try {
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\Config.properties");
-                config.load(fis);
-
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\OR.properties");
-                OR.load(fis);
-                System.out.println("File Input Stream created");
-//log.info("MANISH MANISH");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-           System.out.println("Properties file initiated");
-           System.out.println(config.getProperty("browser"));
-           System.out.println(config.getProperty("testUrl"));
-           System.out.println(OR.getProperty("homeBtn"));
-           System.out.println(OR.getProperty("customerLoginBtn"));
-           System.out.println(OR.getProperty("bankManagerLoginBtn"));
 
 
            //Intialize the ChromeDriver instance with the reference of the webDriver object
             if(config.getProperty("browser").equalsIgnoreCase("chrome")) {
-                System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") +"\\src\\test\\resources\\Executables\\chromedriver.exe");
+                System.setProperty("webdriver.chrome.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\chromedriver.exe");
                 driver = new ChromeDriver();
                 System.out.println("chromeDriver created");
 
@@ -75,13 +59,41 @@ public class TestBase {
             } else {
                 System.out.println("BrowserDriver not intiated");
             }
+        }
 
-           driver.get(config.getProperty("testUrl"));
-           driver.manage().window().maximize();
+public void intiateLogger() {
 
+    log = Logger.getLogger(TestBase.class.getName());
+    System.setProperty("Current.date", d.toString().replace(":", "_").replace(" ", "_"));
+    try {
+        PropertyConfigurator.configure("./src/test/resources/Logs/log4j.properties");
+        System.out.println("Logger Intiatiated in the Base class and Property Configurate pointed to log4j.property file");
+    }catch(Exception e){
+        e.printStackTrace();
+        System.out.println("log4j File is not availble on the said lovation");
+    }
 
+}
+
+public void intiatePropertyfiles() {
+    if (driver == null) {   //when driver is null first load property file
+        config = new Properties();
+        OR = new Properties();
+           try {
+             fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\Config.properties");
+             config.load(fis);
+
+             fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\OR.properties");
+             OR.load(fis);
+             System.out.println("File Input Stream created");
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+}
+public void intiateBrowserDriver() {
+}
 public boolean isElementPresent (By by) {
         try {
             driver.findElement(by);
@@ -90,6 +102,18 @@ public boolean isElementPresent (By by) {
             return false;
         }
 }
+
+public boolean isPropertyKeyPresent(String propKey) {
+    try{
+        config.getProperty(propKey);
+        OR.getProperty(propKey);
+        return true;
+    } catch( NoSuchElementException e) {
+        return false;
+    }
+
+}
+
     @AfterSuite
     public void tearDown() {
         // after executing all the test cases.
