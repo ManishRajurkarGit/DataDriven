@@ -57,62 +57,6 @@ public void intiateLogger() {
 
 }
 
-public void intiatePropertyfiles() {
-    if (driver == null) {   //when driver is null first load property file
-        config = new Properties();
-        OR = new Properties();
-           try {
-             fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\Config.properties");
-             config.load(fis);
-
-             fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\OR.properties");
-             OR.load(fis);
-             System.out.println("File Input Stream created");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}
-public static void intiateBrowserDriver() {
-            //Intialize the ChromeDriver instance with the reference of the webDriver object
-            if(config.getProperty("browser").equalsIgnoreCase("chrome")) {
-                System.setProperty("webdriver.chrome.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\chromedriver.exe");
-                driver = new ChromeDriver();
-                System.out.println("chromeDriver created");
-
-            }    //Intialize the ChromeDriver instance with the reference of the webDriver object
-            else if(config.getProperty("browser").equalsIgnoreCase("firefox")) {
-                System.setProperty("webdriver.gecko.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\geckodriver.exe");
-                driver = new FirefoxDriver();
-            } else if (config.getProperty("browser").equalsIgnoreCase("ie")) {
-                System.setProperty("webdriver.ie.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\IEDriverServer.exe");
-                driver = new InternetExplorerDriver();
-            } else {
-                System.out.println("BrowserDriver not intiated");
-            }
-        }
-
-public boolean isElementPresent (By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        }catch (NoSuchElementException e) {
-            return false;
-        }
-}
-
-public boolean isPropertyKeyPresent(String propKey) {
-    try{
-        config.getProperty(propKey);
-        OR.getProperty(propKey);
-        return true;
-    } catch( NoSuchElementException e) {
-        return false;
-    }
-
-}
-
     @AfterSuite
     public void tearDown() {
         // after executing all the test cases.
@@ -125,4 +69,61 @@ public boolean isPropertyKeyPresent(String propKey) {
             System.out.println("Browser Driver colosed ");
         }
     }
+
+    public void intiatePropertyfiles() {
+        if (driver == null) {   //when driver is null first load property file
+            config = new Properties();
+            OR = new Properties();
+            try {
+                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\Config.properties");
+                config.load(fis);
+
+                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\OR.properties");
+                OR.load(fis);
+                System.out.println("File Input Stream created");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void intiateBrowserDriver() {
+        //Intialize the ChromeDriver instance with the reference of the webDriver object
+        if(config.getProperty("browser").equalsIgnoreCase("chrome")) {
+            System.setProperty("webdriver.chrome.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\chromedriver.exe");
+            driver = new ChromeDriver();
+            System.out.println("chromeDriver created");
+
+        }    //Intialize the ChromeDriver instance with the reference of the webDriver object
+        else if(config.getProperty("browser").equalsIgnoreCase("firefox")) {
+            System.setProperty("webdriver.gecko.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\geckodriver.exe");
+            driver = new FirefoxDriver();
+        } else if (config.getProperty("browser").equalsIgnoreCase("ie")) {
+            System.setProperty("webdriver.ie.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\IEDriverServer.exe");
+            driver = new InternetExplorerDriver();
+        } else {
+            System.out.println("BrowserDriver not intiated");
+        }
+    }
+
+    public boolean isElementPresent (By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        }catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public boolean isPropertyKeyPresent(String propKey) {
+        try{
+            config.getProperty(propKey);
+            OR.getProperty(propKey);
+            return true;
+        } catch( NoSuchElementException e) {
+            return false;
+        }
+
+    }
 }
+
