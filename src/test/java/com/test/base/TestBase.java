@@ -1,4 +1,5 @@
 package com.test.base;
+import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,9 +8,8 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.apache.log4j.Logger;
+
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Properties;
@@ -46,7 +46,7 @@ public class TestBase {
 
 public void intiateLogger() {
     log = Logger.getLogger(TestBase.class.getName());
-    System.setProperty("Current.date", d.toString().replace(":", "_").replace(" ", "_"));
+    System.setProperty("current.date", d.toString().replace(":", "_").replace(" ", "_"));
     try {
         PropertyConfigurator.configure("./src/test/resources/Logs/log4j.properties");
         System.out.println("Logger Intiatiated in the Base class and Property Configurate pointed to log4j.property file");
@@ -89,6 +89,7 @@ public void intiateLogger() {
     }
     public static void intiateBrowserDriver() {
         //Intialize the ChromeDriver instance with the reference of the webDriver object
+        if(config.getProperty("intiateDriver").equalsIgnoreCase("YES")){
         if(config.getProperty("browser").equalsIgnoreCase("chrome")) {
             System.setProperty("webdriver.chrome.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\chromedriver.exe");
             driver = new ChromeDriver();
@@ -105,7 +106,7 @@ public void intiateLogger() {
             System.out.println("BrowserDriver not intiated");
         }
     }
-
+    }
     public boolean isElementPresent (By by) {
         try {
             driver.findElement(by);
