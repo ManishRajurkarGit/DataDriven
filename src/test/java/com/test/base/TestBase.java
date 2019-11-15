@@ -1,21 +1,12 @@
 package com.test.base;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import java.io.FileInputStream;
-import java.util.Date;
 import java.util.NoSuchElementException;
-import java.util.Properties;
 
 
-public class TestBase {
+public class TestBase extends ConfigurationUtilities {
 
     /* INTIALISE
      * Webdriver
@@ -27,87 +18,21 @@ public class TestBase {
      * log  log4j.properties , Logger file from apache
      */
 
-    public static WebDriver driver = null;  // reference which gets define runtime to get Chrome or Firefox based on cofig.
-    public static Properties config = null ;
-    public static Properties OR = null ;
-    public static FileInputStream fis = null ;
-    public static Logger log ;
-    public static Date d = new Date();
-
-
     @BeforeSuite
     public void setUp() {
         //executes before every suite and test cases
         intiateLogger();
         intiatePropertyfiles();
         intiateBrowserDriver();
-
     }
-
-public void intiateLogger() {
-    log = Logger.getLogger(TestBase.class.getName());
-    System.setProperty("current.date", d.toString().replace(":", "_").replace(" ", "_"));
-    try {
-        PropertyConfigurator.configure("./src/test/resources/Logs/log4j.properties");
-        System.out.println("Logger Intiatiated in the Base class and Property Configurate pointed to log4j.property file");
-    }catch(Exception e){
-        e.printStackTrace();
-        System.out.println("log4j File is not availble on the said lovation");
-    }
-
-}
 
     @AfterSuite
     public void tearDown() {
         // after executing all the test cases.
-
-        System.out.println("In the method to close the browser");
-        if (driver != null) {
-            driver.quit();
-            //driver.close();
-
-            System.out.println("Browser Driver colosed ");
-        }
+        closeQuiteDriver();
     }
 
-    public void intiatePropertyfiles() {
-        if (driver == null) {   //when driver is null first load property file
-            config = new Properties();
-            OR = new Properties();
-            try {
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\Config.properties");
-                config.load(fis);
-
-                fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\Properties\\OR.properties");
-                OR.load(fis);
-                System.out.println("File Input Stream created");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    public static void intiateBrowserDriver() {
-        //Intialize the ChromeDriver instance with the reference of the webDriver object
-        if(config.getProperty("intiateDriver").equalsIgnoreCase("YES")){
-        if(config.getProperty("browser").equalsIgnoreCase("chrome")) {
-            System.setProperty("webdriver.chrome.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\chromedriver.exe");
-            driver = new ChromeDriver();
-            System.out.println("chromeDriver created");
-
-        }    //Intialize the ChromeDriver instance with the reference of the webDriver object
-        else if(config.getProperty("browser").equalsIgnoreCase("firefox")) {
-            System.setProperty("webdriver.gecko.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\geckodriver.exe");
-            driver = new FirefoxDriver();
-        } else if (config.getProperty("browser").equalsIgnoreCase("ie")) {
-            System.setProperty("webdriver.ie.driver", "F:\\Automation\\INTLJ\\DataDriven\\src\\test\\resources\\Executables\\IEDriverServer.exe");
-            driver = new InternetExplorerDriver();
-        } else {
-            System.out.println("BrowserDriver not intiated");
-        }
-    }
-    }
-    public boolean isElementPresent (By by) {
+   public boolean isElementPresent (By by) {
         try {
             driver.findElement(by);
             return true;
