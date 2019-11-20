@@ -47,6 +47,7 @@ public class TestBase extends ConfigurationUtilities {
             OR.getProperty(propKey);
             return true;
         } catch( NoSuchElementException e) {
+
             return false;
         }
 
