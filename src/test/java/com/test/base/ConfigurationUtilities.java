@@ -96,12 +96,8 @@ public class ConfigurationUtilities {
 
     }
     public void writeExcel (){
-
-
-    }
-//jdbc:oracle:thin:@wspdev.bmc.com:1521
     /*-------------------------------------------------------------
-Function Name: switchToClassic
+Function Name: 
 Created By:
 Purpose: Switching to Classic if user is in Lightning page
 Input Parameters:
@@ -109,68 +105,9 @@ Return Value:
 Modified by: XX
 --------------------------------------------------------------*/
 
-    public static String executeSQL(HashMap<String, Object> params) throws SQLException, Exception {
-        String Host = (String) params.get("HOST");
-        String Username = (String) params.get("USERNAME");
-        String Password = (String) params.get("PASSWORD");
-        String Query = (String) params.get("QUERY");
-        String ColumnName = (String) params.get("COLUMN NAME");
-        String returnNumRecords = (String) params.get("EXPECTED RESULT");
-        String ColumnData = null;
-        Class.forName("oracle.jdbc.driver.OracleDriver");
-        Connection con = null;
-        try {
-            con = DriverManager.getConnection(Host, Username, Password);
-            Statement stmt = con.createStatement();
-            System.out.println("Given Query : " + Query);
-            ResultSet rs = stmt.executeQuery(Query);
-            int no_of_rows = 0;
-            if (!rs.equals(null)) {
-                while (rs.next()) {
-                    ColumnData = rs.getString(ColumnName);
-                    no_of_rows++;
-                    System.out.println("Column Name is :" +  ColumnName);
-                    System.out.println("Column Name Data is :" +  ColumnData);
-                }
-                System.out.println("No. of Rows in DB are : " + no_of_rows);
-            }
-            if (no_of_rows > 1) {
-                System.out.println("As Multiple rows are found data is compared with last row");
-            }else if (no_of_rows ==0){
-                throw new Exception("No Records found , Check query by manually runing in the db : " + Query);
-            }
-        } catch (Exception ex) {
-            throw new Exception("ERROR : " + ex.getMessage());
-        } finally {
-            if(!(con==null))
-                con.close();
-        }
-        Assert.assertEquals(ColumnData, returnNumRecords, "Data is NOT Matching");
-        return ColumnData;
+
     }
 
-    public String querySQLServer(HashMap<String, Object> params)  throws SQLException, Exception {
-        String Host = (String) params.get("HOST");
-        String Username = (String) params.get("USERNAME");
-        String Password = (String) params.get("PASSWORD");
-        String Query = (String) params.get("QUERY");
-        String ColumnName = (String) params.get("COLUMN NAME");
-        String returnNumRecords = (String) params.get("EXPECTED RESULT");
-        String ColumnData = "";
-        Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        Connection con = DriverManager.getConnection(Host, Username, Password);
-        Statement stmt = con.createStatement();
-        System.out.println("Given Query : " + Query);
-        ResultSet rs = stmt.executeQuery(Query);
-        int no_of_rows = 0;
-        while (rs.next()) {
-            ColumnData = rs.getString(ColumnName);
-            no_of_rows += 1;
-            System.out.println("No. of Rows in DB are :- " + no_of_rows);
-            System.out.println(ColumnData);
-        }
-        con.close();
-        System.out.println("No. of Rows : " + no_of_rows);
-        return ColumnData;
-    }
+
+    
 }
