@@ -2,6 +2,7 @@ package com.test.base;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -9,6 +10,7 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.io.FileInputStream;
 import java.util.Date;
+import java.util.NoSuchElementException;
 import java.util.Properties;
 
 public class ConfigurationUtilities {
@@ -105,6 +107,26 @@ Modified by: XX
 
     }
 
+    public static boolean isElementPresent (By by) {
+        try {
+            driver.findElement(by);
+            return true;
+        }catch (NoSuchElementException e) {
+            return false;
+        }
+    }
+
+    public static boolean isPropertyKeyPresent(String propKey) {
+        try{
+            config.getProperty(propKey);
+            OR.getProperty(propKey);
+            return true;
+        } catch( NoSuchElementException e) {
+
+            return false;
+        }
+
+    }
 
     
 }

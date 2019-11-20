@@ -1,9 +1,6 @@
 package com.test.base;
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-
-import java.util.NoSuchElementException;
 
 
 public class TestBase extends ConfigurationUtilities {
@@ -32,25 +29,5 @@ public class TestBase extends ConfigurationUtilities {
         closeQuiteDriver();
     }
 
-   public boolean isElementPresent (By by) {
-        try {
-            driver.findElement(by);
-            return true;
-        }catch (NoSuchElementException e) {
-            return false;
-        }
-    }
-
-    public boolean isPropertyKeyPresent(String propKey) {
-        try{
-            config.getProperty(propKey);
-            OR.getProperty(propKey);
-            return true;
-        } catch( NoSuchElementException e) {
-
-            return false;
-        }
-
-    }
-}
+  }
 
