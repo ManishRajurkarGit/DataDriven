@@ -9,6 +9,7 @@ public class Oracon {
 
     public static void main(String[] args) throws Exception {
         //@Hostanme:Portname
+       // http://www.java2s.com/Code/Jar/j/Downloadjdbcoraclejar.htm
         param1.put("HOST","jdbc:oracle:thin:@ebizsit.bmc.com:1521");
         param1.put("USERNAME","mrajurka");
         param1.put("PASSWORD","OEPLUS#123");
