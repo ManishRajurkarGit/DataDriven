@@ -10,11 +10,11 @@ public class Oracon {
     public static void main(String[] args) throws Exception {
         //@Hostanme:Portname
        // http://www.java2s.com/Code/Jar/j/Downloadjdbcoraclejar.htm
-        param1.put("HOST","jdbc:oracle:thin:@ebizsit.bmc.com:1521");
+        param1.put("HOST","jdbc:oracle:thin:@manishqa.manish.com:1521");
         param1.put("USERNAME","mrajurka");
-        param1.put("PASSWORD","OEPLUS#123");
-        param1.put("QUERY","SELECT * FROM APPS.BMOE_PRODUCT Where PRODUCT_NUMBER = 'DRNAC.0.0.00'");
-        param1.put("COLUMN NAME","PRODUCT_NAME");
+        param1.put("PASSWORD","password");
+        param1.put("QUERY","SELECT * FROM table Where Column_name = 'value'");
+        param1.put("COLUMN NAME","customer_name");
         param1.put("EXPECTED RESULT","HP MeasureWare Interface");
          Oracon  obj1  = new Oracon();
          obj1.querySQL(param1);

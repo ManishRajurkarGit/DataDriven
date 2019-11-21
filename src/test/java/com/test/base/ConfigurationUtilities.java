@@ -122,9 +122,9 @@ Modified by: XX
 
     }
 
-    public static boolean isElementPresent (By by) {
+    public static boolean isElementPresent (By xpath) {
         try {
-            driver.findElement(by);
+            driver.findElement(xpath);
             return true;
         }catch (NoSuchElementException e) {
             return false;
@@ -142,6 +142,24 @@ Modified by: XX
         }
 
     }
+
+    public static void EnterValueInInputBox(By xpath ,String value) {
+        try {
+            driver.findElement(xpath).sendKeys(value);
+
+        } catch (NoSuchElementException e){
+            System.out.println("Element not found, check the xpath");
+        }
+
+        public static void ClickElement(By xpath) {
+            try {
+                driver.findElement(xpath).click();
+
+            } catch (NoSuchElementException e){
+                System.out.println("Element not found, check the xpath");
+            }
+    }
+
 
     public static String executeSoql(HashMap<String, Object> params) throws ClientProtocolException, IOException {
       // Query to be executed on when the successfull connection is established
@@ -229,5 +247,5 @@ Modified by: XX
         return nodeValue;
     }
 
-    
+
 }
