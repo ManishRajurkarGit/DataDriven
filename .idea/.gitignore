@@ -1,4 +1,6 @@
 # Default ignored files
 /workspace.xml
-/src/test/java/resources/Logs/*
+/src/test/resources/Logs/*
 /target/*
+*.class
+*.log
