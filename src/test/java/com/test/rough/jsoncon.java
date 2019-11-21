@@ -30,11 +30,12 @@ public class jsoncon {
         params.put("CLIENTID","3MVG9d8..z.hDcPIOtFMLGaOQn_8JxZ6mzOxU.6vF3AmLcrzcf1w4br_xDDuBzqDQoJU8C7lUYJfJSE0oGNh4");
         params.put("CLIENTSECRET","B204ECC8C399FE85E75E94FC12A4E3AB7748007C5E489A9692BE03F4165B8C63");
         params.put("SOQL Query","select id from contact limit 1");
+        params.put("Json Path Expression" ,"$.records[0].Id");
         jsoncon ts1 = new jsoncon();
 
         ts1.executeSoql(params);
         //params.put("Json Path Expression" ,"$.address.street");
-        params.put("Json Path Expression" ,"$.records[0].Id");
+
 
         String response_node  =ts1.getJsonNodeValue(params);
         System.out.println("RESPONSE NODE IS :" +response_node);
@@ -42,9 +43,11 @@ public class jsoncon {
 
    public static String executeSoql(HashMap<String, Object> params) throws ClientProtocolException, IOException {
 
-        String Query= (String)params.get("SOQL Query");
-        System.out.println(Query);
+      // Query to be executed on when the successfull connection is established
+          String Query= (String)params.get("SOQL Query");
+          System.out.println(Query);
 
+      // Parameters which are required to make the secured connection
         String USERNAME     = (String)params.get("USERNAME");
         String PASSWORD     =  (String)params.get("PASSWORD");
         String LOGINURL     = "https://login.salesforce.com";
@@ -54,6 +57,8 @@ public class jsoncon {
         String ACCESSTOKEN =null ;
         String INSTANCEURL= null ;
         String RefreshToken ="";
+
+
         HttpClient httpclient = new DefaultHttpClient();
         HttpPost httpPost =null;
 
